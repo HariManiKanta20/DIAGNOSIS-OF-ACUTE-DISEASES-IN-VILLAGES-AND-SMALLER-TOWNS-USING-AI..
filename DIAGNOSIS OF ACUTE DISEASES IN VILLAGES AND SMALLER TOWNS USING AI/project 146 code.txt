@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Diagnosis Assistant</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #28a745;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            margin: 20px auto;
+            padding: 20px;
+            width: 80%;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .section {
+            margin: 20px 0;
+        }
+
+        .section h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .section p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        /* Chatbot Box */
+        .chatbot {
+            border: 2px solid #28a745;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .chatbot h2 {
+            color: #28a745;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .chat-messages {
+            border: 1px solid #ddd;
+            padding: 10px;
+            height: 200px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+
+        .user-message, .bot-message {
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 10px;
+            width: fit-content;
+        }
+
+        .user-message {
+            background-color: #cce5ff;
+            margin-left: auto;
+        }
+
+        .bot-message {
+            background-color: #e6e6e6;
+        }
+
+        /* Call Buttons */
+        .call-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .call-button {
+            display: block;
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .call-button:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1>Health Diagnosis Assistant</h1>
+    </header>
+
+    <div class="container">
+
+        <!-- Introduction -->
+        <section class="section">
+            <h2>Welcome to the Health Diagnosis Assistant!</h2>
+            <p>Our system provides quick remedies and over-the-counter medications for minor symptoms. If needed, you can also consult a doctor through a video or audio call.</p>
+        </section>
+
+        <!-- Chatbot Section -->
+        <section class="section chatbot">
+            <h2>Check Your Symptoms</h2>
+            <div class="chat-messages" id="chat-messages">
+                <div class="bot-message">Hello! Please enter the number corresponding to your primary symptom:<br>
+                    1. Fever<br>
+                    2. Cough<br>
+                    3. Headache<br>
+                    4. Stomach Pain</div>
+            </div>
+            <input type="text" class="chat-input" id="chat-input" placeholder="Type your symptom number..." onkeydown="if (event.key === 'Enter') sendMessage()">
+        </section>
+
+        <!-- Call Buttons Section -->
+        <section class="section">
+            <h2>Need Further Assistance?</h2>
+            <p>If your symptoms persist or worsen, consult a doctor:</p>
+            <div class="call-buttons">
+                <a href="video.html" class="call-button">Video Call a Doctor</a>
+                <a href="audio.html" class="call-button">Audio Call a Doctor</a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Health Diagnosis Assistant. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function sendMessage() {
+            const chatInput = document.getElementById('chat-input');
+            const chatMessages = document.getElementById('chat-messages');
+            const userMessage = chatInput.value.trim();
+
+            if (userMessage) {
+                const userMsgDiv = document.createElement('div');
+                userMsgDiv.classList.add('user-message');
+                userMsgDiv.textContent = userMessage;
+                chatMessages.appendChild(userMsgDiv);
+
+                let botResponse = '';
+
+                switch (userMessage.toLowerCase()) {
+                    case '1':
+                        botResponse = 'For fever:<br>- Home Remedy: Drink plenty of fluids and rest.<br>- OTC Medicine: Paracetamol (500mg) every 6-8 hours.<br><strong>Note:</strong> If fever persists for more than 2 days or exceeds 102°F, consult a doctor.';
+                        break;
+                    case '2':
+                        botResponse = 'For cough:<br>- Home Remedy: Drink warm water with honey and ginger.<br>- OTC Medicine: Cough syrup such as Benadryl.<br><strong>Note:</strong> If cough lasts longer than a week, consult a doctor.';
+                        break;
+                    case '3':
+                        botResponse = 'For headache:<br>- Home Remedy: Apply a cold compress and rest.<br>- OTC Medicine: Ibuprofen (200mg) or Paracetamol.<br><strong>Note:</strong> If headaches are severe, consult a doctor.';
+                        break;
+                    case '4':
+                        botResponse = 'For stomach pain:<br>- Home Remedy: Drink warm water with salt and lemon.<br>- OTC Medicine: Antacid like Gelusil.<br><strong>Note:</strong> If pain is severe, consult a doctor.';
+                        break;
+                    default:
+                        botResponse = 'Please enter a valid symptom number:<br>1. Fever<br>2. Cough<br>3. Headache<br>4. Stomach Pain';
+                }
+
+                const botMsgDiv = document.createElement('div');
+                botMsgDiv.classList.add('bot-message');
+                botMsgDiv.innerHTML = botResponse;
+                chatMessages.appendChild(botMsgDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                chatInput.value = '';
+            }
+        }
+    </script>
+
+</body>
+</html>
+
+FRONT END:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Diagnosis Assistant</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #28a745;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            margin: 20px auto;
+            padding: 20px;
+            width: 80%;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .section {
+            margin: 20px 0;
+        }
+
+        .section h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .section p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        /* Chatbot Box */
+        .chatbot {
+            border: 2px solid #28a745;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .chatbot h2 {
+            color: #28a745;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .chat-messages {
+            border: 1px solid #ddd;
+            padding: 10px;
+            height: 200px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+
+        .user-message, .bot-message {
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 10px;
+            width: fit-content;
+        }
+
+        .user-message {
+            background-color: #cce5ff;
+            margin-left: auto;
+        }
+
+        .bot-message {
+            background-color: #e6e6e6;
+        }
+
+        /* Call Buttons */
+        .call-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .call-button {
+            display: block;
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .call-button:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1>Health Diagnosis Assistant</h1>
+    </header>
+
+    <div class="container">
+
+        <!-- Introduction -->
+        <section class="section">
+            <h2>Welcome to the Health Diagnosis Assistant!</h2>
+            <p>Our system provides quick remedies and over-the-counter medications for minor symptoms. If needed, you can also consult a doctor through a video or audio call.</p>
+        </section>
+
+        <!-- Chatbot Section -->
+        <section class="section chatbot">
+            <h2>Check Your Symptoms</h2>
+            <div class="chat-messages" id="chat-messages">
+                <div class="bot-message">Hello! Please enter the number corresponding to your primary symptom:<br>
+                    1. Fever<br>
+                    2. Cough<br>
+                    3. Headache<br>
+                    4. Stomach Pain</div>
+            </div>
+            <input type="text" class="chat-input" id="chat-input" placeholder="Type your symptom number..." onkeydown="if (event.key === 'Enter') sendMessage()">
+        </section>
+
+        <!-- Call Buttons Section -->
+        <section class="section">
+            <h2>Need Further Assistance?</h2>
+            <p>If your symptoms persist or worsen, consult a doctor:</p>
+            <div class="call-buttons">
+                <a href="video.html" class="call-button">Video Call a Doctor</a>
+                <a href="audio.html" class="call-button">Audio Call a Doctor</a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Health Diagnosis Assistant. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function sendMessage() {
+            const chatInput = document.getElementById('chat-input');
+            const chatMessages = document.getElementById('chat-messages');
+            const userMessage = chatInput.value.trim();
+
+            if (userMessage) {
+                const userMsgDiv = document.createElement('div');
+                userMsgDiv.classList.add('user-message');
+                userMsgDiv.textContent = userMessage;
+                chatMessages.appendChild(userMsgDiv);
+
+                let botResponse = '';
+
+                switch (userMessage.toLowerCase()) {
+                    case '1':
+                        botResponse = 'For fever:<br>- Home Remedy: Drink plenty of fluids and rest.<br>- OTC Medicine: Paracetamol (500mg) every 6-8 hours.<br><strong>Note:</strong> If fever persists for more than 2 days or exceeds 102°F, consult a doctor.';
+                        break;
+                    case '2':
+                        botResponse = 'For cough:<br>- Home Remedy: Drink warm water with honey and ginger.<br>- OTC Medicine: Cough syrup such as Benadryl.<br><strong>Note:</strong> If cough lasts longer than a week, consult a doctor.';
+                        break;
+                    case '3':
+                        botResponse = 'For headache:<br>- Home Remedy: Apply a cold compress and rest.<br>- OTC Medicine: Ibuprofen (200mg) or Paracetamol.<br><strong>Note:</strong> If headaches are severe, consult a doctor.';
+                        break;
+                    case '4':
+                        botResponse = 'For stomach pain:<br>- Home Remedy: Drink warm water with salt and lemon.<br>- OTC Medicine: Antacid like Gelusil.<br><strong>Note:</strong> If pain is severe, consult a doctor.';
+                        break;
+                    default:
+                        botResponse = 'Please enter a valid symptom number:<br>1. Fever<br>2. Cough<br>3. Headache<br>4. Stomach Pain';
+                }
+
+                const botMsgDiv = document.createElement('div');
+                botMsgDiv.classList.add('bot-message');
+                botMsgDiv.innerHTML = botResponse;
+                chatMessages.appendChild(botMsgDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                chatInput.value = '';
+            }
+        }
+    </script>
+
+</body>
+</html>
